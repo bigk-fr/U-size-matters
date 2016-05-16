@@ -1,0 +1,12 @@
+apt-get update
+apt-get install dselect -y
+dselect update
+dpkg --clear-selections
+dpkg --set-selections < selections.txt
+apt-get -y -u dselect-upgrade
+apt-get install -y linux-signed-image-generic
+apt-get autoclean
+apt-get clean
+apt-get autoremove -y
+[[ $(dpkg -l | grep ^rc) ]] && sudo dpkg -P $(dpkg -l | grep ^rc | tr -s " " | cut -d " " -f 2)
+rm -f selections.txt
